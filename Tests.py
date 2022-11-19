@@ -10,7 +10,8 @@ class TestDatabase(unittest.TestCase):
         self.db = None
 
     def test_can_load_tweets(self):
-        self.assertFalse()
+        self.db.save_tweets("test")
+        self.assertEqual(self.db.load_tweets(), ['t','e','s','t'])
 
 
 class TestServer(unittest.TestCase):
