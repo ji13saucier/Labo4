@@ -19,6 +19,9 @@ class TestDatabase(unittest.TestCase):
         answer.extend("tweet1")
         self.assertEqual(self.db.tweets, answer)
 
+    def test_can_save_nothing(self):
+        self.assertNotEqual(self.db.save_tweets(), "NULL")
+
 class TestServer(unittest.TestCase):
     pass
 
