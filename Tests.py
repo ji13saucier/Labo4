@@ -20,13 +20,12 @@ class TestDatabase(unittest.TestCase):
         answer.extend("tweet1")
         self.assertEqual(self.db.tweets, answer)
 
-    def test_can_save_multiple_tweets(self):
+    def test_cant_save_multiple_tweets(self):
         self.db.save_tweets("tweet2")
         self.db.save_tweets("Essais2")
         answer = []
-        answer.extend("tweet2")
         answer.extend("Essais2")
-        self.assertNotEqual(self.db.tweets, answer)
+        self.assertEqual(self.db.tweets, answer)
 
 
 class TestServer(unittest.TestCase):
