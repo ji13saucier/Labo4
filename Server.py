@@ -66,4 +66,3 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
 
             self.path = 'Display.html'
 
-class Tweetsmodifier:

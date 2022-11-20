@@ -1,6 +1,8 @@
 import unittest
+from http.server import SimpleHTTPRequestHandler
 from Server import Database
 from TwitterAPI import TwitterAPI
+from Server import Lab4HTTPRequestHandler
 
 
 class TestDatabase(unittest.TestCase):
@@ -35,7 +37,13 @@ class TestDatabase(unittest.TestCase):
 
 
 class TestServer(unittest.TestCase):
-    pass
+
+    def setUp(self):
+        self.request = Lab4HTTPRequestHandler(SimpleHTTPRequestHandler)
+    def tearDown(self):
+        self.request = None
+
+    #def Test
 
 
 class TestTwitterAPI(unittest.TestCase):
@@ -102,5 +110,3 @@ class TestTwitterAPI(unittest.TestCase):
             'next_token': {}
         }), TwitterAPI.create_twitter_url(","))
 
-class TestTweetModifier(unittest.TestCase):
-    pass
