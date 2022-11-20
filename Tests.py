@@ -1,4 +1,3 @@
-import unittest
 from Server import Database
 from TwitterAPI import TwitterAPI
 
@@ -13,7 +12,6 @@ class TestDatabase(unittest.TestCase):
     def test_can_load_tweets(self):
         self.db.save_tweets("test")
         self.assertEqual(self.db.load_tweets(), ['t', 'e', 's', 't'])
-
 
     def test_can_save_tweets(self):
         self.db.save_tweets("tweet1")

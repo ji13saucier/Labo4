@@ -7,6 +7,3 @@ if __name__ == '__main__':
         print('Serving on http://localhost:8080')
         tcp_server.serve_forever()
 
-
-
-# test 109
