@@ -45,6 +45,7 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
 
             if data is not None:
                 if ' ' not in data:
+
                     tweets = json_response['data']
 
                     # Assume that right here, we save the tweets into a SQL databases
