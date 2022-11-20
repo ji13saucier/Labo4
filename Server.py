@@ -12,7 +12,11 @@ class Database:
         self.tweets = []
 
     def save_tweets(self, new_tweets):
-        self.tweets.extend(new_tweets)
+        if not self.tweets:
+            self.tweets.extend(new_tweets)
+        else:
+            self.tweets = []
+            self.tweets.extend(new_tweets)
 
     def load_tweets(self):
         return self.tweets

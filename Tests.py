@@ -14,10 +14,18 @@ class TestDatabase(unittest.TestCase):
         self.db.save_tweets("test")
         self.assertEqual(self.db.load_tweets(), ['t', 'e', 's', 't'])
 
+
     def test_can_save_tweets(self):
         self.db.save_tweets("tweet1")
         answer = []
         answer.extend("tweet1")
+        self.assertEqual(self.db.tweets, answer)
+
+    def test_cant_save_multiple_tweets(self):
+        self.db.save_tweets("tweet2")
+        self.db.save_tweets("Essais2")
+        answer = []
+        answer.extend("Essais2")
         self.assertEqual(self.db.tweets, answer)
 
 
