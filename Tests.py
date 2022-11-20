@@ -14,6 +14,11 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(self.db.load_tweets(), ['t','e','s','t'])
 
 
+    def test_no_tweets_stored(self):
+        self.assertEqual(self.db.load_tweets(), [])
+
+
+
     def test_can_save_tweets(self):
         self.db.save_tweets("tweet1")
         answer = []
@@ -33,4 +38,7 @@ class TestServer(unittest.TestCase):
 
 
 class TestTwitterAPI(unittest.TestCase):
+    pass
+
+class TestTweetModifier(unittest.TestCase):
     pass
