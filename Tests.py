@@ -1,3 +1,4 @@
+import unittest
 from Server import Database
 from TwitterAPI import TwitterAPI
 
