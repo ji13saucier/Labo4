@@ -13,6 +13,9 @@ class TwitterAPI:
     def create_twitter_url(keyword, max_results=10):
         search_url = 'https://api.twitter.com/2/tweets/search/recent'
 
+        if keyword is None:
+            keyword = ' '
+
         query_params = {
             'query': keyword,
             'max_results': max_results,
