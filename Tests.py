@@ -26,7 +26,7 @@ class TestDatabase(unittest.TestCase):
         answer = []
         answer.extend("tweet2")
         answer.extend("Essais2")
-        self.assertEqual(self.db.tweets, answer)
+        self.assertNotEqual(self.db.tweets, answer)
 
 
 class TestServer(unittest.TestCase):
