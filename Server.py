@@ -37,7 +37,7 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
             query_components = parse_qs(urlparse(self.path).query)
             if 'query' in query_components:
                 data = query_components['query'][0]
-
+            print(data)
             headers = TwitterAPI.create_twitter_headers()
             url, params = TwitterAPI.create_twitter_url(data)
             json_response = TwitterAPI.query_twitter_api(url, headers, params)
