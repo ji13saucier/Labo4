@@ -1,6 +1,8 @@
 import unittest
+from http.server import SimpleHTTPRequestHandler
 from Server import Database
 from TwitterAPI import TwitterAPI
+from Server import Lab4HTTPRequestHandler
 
 
 class TestDatabase(unittest.TestCase):
@@ -13,6 +15,12 @@ class TestDatabase(unittest.TestCase):
     def test_can_load_tweets(self):
         self.db.save_tweets("test")
         self.assertEqual(self.db.load_tweets(), ['t', 'e', 's', 't'])
+
+
+    def test_no_tweets_stored(self):
+        self.assertEqual(self.db.load_tweets(), [])
+
+
 
     def test_can_save_tweets(self):
         self.db.save_tweets("tweet1")
@@ -29,7 +37,13 @@ class TestDatabase(unittest.TestCase):
 
 
 class TestServer(unittest.TestCase):
-    pass
+
+    def setUp(self):
+        self.request = Lab4HTTPRequestHandler(SimpleHTTPRequestHandler)
+    def tearDown(self):
+        self.request = None
+
+    #def Test
 
 
 class TestTwitterAPI(unittest.TestCase):
@@ -95,3 +109,4 @@ class TestTwitterAPI(unittest.TestCase):
             'place.fields': 'full_name,id,country,country_code,geo,name,place_type',
             'next_token': {}
         }), TwitterAPI.create_twitter_url(","))
+

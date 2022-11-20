@@ -65,3 +65,4 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
             self.wfile.close()
 
             self.path = 'Display.html'
+
