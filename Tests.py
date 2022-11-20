@@ -16,11 +16,8 @@ class TestDatabase(unittest.TestCase):
         self.db.save_tweets("test")
         self.assertEqual(self.db.load_tweets(), ['t', 'e', 's', 't'])
 
-
     def test_no_tweets_stored(self):
         self.assertEqual(self.db.load_tweets(), [])
-
-
 
     def test_can_save_tweets(self):
         self.db.save_tweets("tweet1")
@@ -38,12 +35,16 @@ class TestDatabase(unittest.TestCase):
 
 class TestServer(unittest.TestCase):
 
-    def setUp(self):
-        self.request = Lab4HTTPRequestHandler(SimpleHTTPRequestHandler)
-    def tearDown(self):
-        self.request = None
+    # def setUp(self):
+        # self.path = "http://localhost:8080/queryTwitter?query="
 
-    #def Test
+    # def tearDown(self):
+        # self.path = None
+
+    def test_server(self):
+        Lab4HTTPRequestHandler.path = "/queryTwitter?query=test+"
+        Lab4HTTPRequestHandler.do_GET(Lab4HTTPRequestHandler)
+        self.assertEqual("Display.html", Lab4HTTPRequestHandler.path)
 
 
 class TestTwitterAPI(unittest.TestCase):
@@ -112,7 +113,7 @@ class TestTwitterAPI(unittest.TestCase):
 
     def test_twitter_none_character_query(self):
         self.assertEqual(('https://api.twitter.com/2/tweets/search/recent', {
-            'query': "",
+            'query': " ",
             'max_results': 10,
             'expansions': 'author_id,in_reply_to_user_id,geo.place_id',
             'tweet.fields': 'id,text,author_id,in_reply_to_user_id,geo,conversation_id,created_at,lang,'
@@ -121,6 +122,3 @@ class TestTwitterAPI(unittest.TestCase):
             'place.fields': 'full_name,id,country,country_code,geo,name,place_type',
             'next_token': {}
         }), TwitterAPI.create_twitter_url(None))
-
-
-

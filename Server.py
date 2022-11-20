@@ -32,31 +32,38 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
             return SimpleHTTPRequestHandler.do_GET(self)
 
         if self.path.startswith('/queryTwitter'):
-            if data is '' or ' ' or 'a':
-                data = 'test'
+
+            data = ' '
 
             query_components = parse_qs(urlparse(self.path).query)
             if 'query' in query_components:
                 data = query_components['query'][0]
-            print(data)
+
             headers = TwitterAPI.create_twitter_headers()
             url, params = TwitterAPI.create_twitter_url(data)
             json_response = TwitterAPI.query_twitter_api(url, headers, params)
-            tweets = json_response['data']
 
-            # Assume that right here, we save the tweets into a SQL databases
-            self.db.save_tweets(tweets)
+            if data is not None:
+                if ' ' not in data:
+                    tweets = json_response['data']
 
-            # Assume that right here, we load the tweets from a SQL database
-            all_tweets = self.db.load_tweets()
+                    # Assume that right here, we save the tweets into a SQL databases
+                    self.db.save_tweets(tweets)
 
-            tweets_to_display = ''
-            for tweet in all_tweets:
-                tweets_to_display += '<div> <li>' + tweet['text'] + '</li> </div>'
+                    # Assume that right here, we load the tweets from a SQL database
+                    all_tweets = self.db.load_tweets()
+
+                    tweets_to_display = ''
+                    for tweet in all_tweets:
+                        tweets_to_display += '<div> <li>' + tweet['text'] + '</li> </div>'
+
+                    text_to_display = ''
+                    with open('Display.html', 'r') as file:
+                        text_to_display = f"{file.read()}".format(**locals())
 
             text_to_display = ''
             with open('Display.html', 'r') as file:
-                text_to_display = f"{file.read()}".format(**locals())
+                text_to_display = f"{'Tu dois recherche au minimum un mot !'}".format(**locals())
 
             self.send_response(HTTPStatus.OK)
             self.send_header('Content-type', 'text/html')
@@ -66,4 +73,3 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
             self.wfile.close()
 
             self.path = 'Display.html'
-
