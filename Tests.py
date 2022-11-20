@@ -39,7 +39,7 @@ class TestTwitterAPI(unittest.TestCase):
             'user.fields': 'id,name,username,created_at,description,public_metrics,verified',
             'place.fields': 'full_name,id,country,country_code,geo,name,place_type',
             'next_token': {}
-        }), TwitterAPI.create_twitter_url("test"))
+        }), TwitterAPI.create_twitter_url(["Test", "Test2"]))
 
     def test_twitter_url_multiple_query(self):
         self.assertEqual(('https://api.twitter.com/2/tweets/search/recent', {
@@ -76,3 +76,15 @@ class TestTwitterAPI(unittest.TestCase):
             'place.fields': 'full_name,id,country,country_code,geo,name,place_type',
             'next_token': {}
         }), TwitterAPI.create_twitter_url("test", 15))  # max_results modifier à 15
+
+    def test_twitter_weird_character_query(self):
+        self.assertEqual(('https://api.twitter.com/2/tweets/search/recent', {
+            'query': ",",
+            'max_results': 10,
+            'expansions': 'author_id,in_reply_to_user_id,geo.place_id',
+            'tweet.fields': 'id,text,author_id,in_reply_to_user_id,geo,conversation_id,created_at,lang,'
+                            'public_metrics,referenced_tweets,reply_settings,source',
+            'user.fields': 'id,name,username,created_at,description,public_metrics,verified',
+            'place.fields': 'full_name,id,country,country_code,geo,name,place_type',
+            'next_token': {}
+        }), TwitterAPI.create_twitter_url(","))
