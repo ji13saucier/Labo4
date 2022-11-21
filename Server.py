@@ -32,7 +32,8 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
 
         if self.path.startswith('/queryTwitter'):
 
-            data = ' '
+            data = ' '      # defini au moins une donné de base
+
             query_components = parse_qs(urlparse(self.path).query)
             if 'query' in query_components:
                 data = query_components['query'][0]
