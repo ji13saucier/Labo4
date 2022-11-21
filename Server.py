@@ -28,12 +28,14 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.path = 'Search.html'
-
+            print("jai fair le premier")
             return SimpleHTTPRequestHandler.do_GET(self)
 
         if self.path.startswith('/queryTwitter'):
 
             data = ' '
+
+            print('been here')
 
             query_components = parse_qs(urlparse(self.path).query)
             if 'query' in query_components:
@@ -42,6 +44,10 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
             headers = TwitterAPI.create_twitter_headers()
             url, params = TwitterAPI.create_twitter_url(data)
             json_response = TwitterAPI.query_twitter_api(url, headers, params)
+
+            text_to_display = ''
+            with open('Display.html', 'r') as file:
+                text_to_display = f"{'Tu dois recherche au minimum un mot !'}".format(**locals())
 
             if data is not None:
                 if ' ' not in data:
@@ -61,10 +67,6 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
                     text_to_display = ''
                     with open('Display.html', 'r') as file:
                         text_to_display = f"{file.read()}".format(**locals())
-
-            text_to_display = ''
-            with open('Display.html', 'r') as file:
-                text_to_display = f"{'Tu dois recherche au minimum un mot !'}".format(**locals())
 
             self.send_response(HTTPStatus.OK)
             self.send_header('Content-type', 'text/html')

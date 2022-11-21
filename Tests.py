@@ -1,5 +1,9 @@
 import unittest
 from http.server import SimpleHTTPRequestHandler
+
+import requests
+
+import Server
 from Server import Database
 from TwitterAPI import TwitterAPI
 from Server import Lab4HTTPRequestHandler
@@ -33,25 +37,47 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(self.db.tweets, answer)
 
 
-class TestServer(unittest.TestCase):
+# class TestServer(unittest.TestCase):
 
     # def setUp(self):
-        # self.path = "http://localhost:8080/queryTwitter?query="
+    #    self.path = "http://localhost:8080/queryTwitter?query="
 
     # def tearDown(self):
-        # self.path = None
+    #    self.path = None
 
-    def test_server(self):
-        Lab4HTTPRequestHandler.path = "/queryTwitter?query=test+"
-        Lab4HTTPRequestHandler.do_GET(Lab4HTTPRequestHandler)
-        self.assertEqual("Display.html", Lab4HTTPRequestHandler.path)
+    # def test_server_queries(self):
+    #    Lab4HTTPRequestHandler.path = "/queryTwitter?query=test"
+    #    Lab4HTTPRequestHandler.do_GET(Lab4HTTPRequestHandler)
+    #    self.assertEqual("Display.html", Lab4HTTPRequestHandler)
+
+    # def test_server_search(self):
+    #    Server.Lab4HTTPRequestHandler.path = '/'
+    #    Server.Lab4HTTPRequestHandler.do_GET(Server.Lab4HTTPRequestHandler)
+    #    self.assertEqual('Search.html', Lab4HTTPRequestHandler.path)
 
 
 class TestTwitterAPI(unittest.TestCase):
     def test_create_headers(self):
         self.assertIsNotNone(TwitterAPI.create_twitter_headers())
 
-    def test_twitter_url_one_query(self):
+    def test_query_twitter_api(self):
+
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url("test")
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+
+        response = requests.request('GET', url, headers=headers, params=params)
+        self.assertIsNotNone(response.json())
+
+    def test_empty_query_twitter_api(self):
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url("")
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+
+        response = requests.request('GET', url, headers=headers, params=params)
+        self.assertIsNotNone(response.json())
+
+    def test_twitter_url_one_word(self):
         self.assertEqual(('https://api.twitter.com/2/tweets/search/recent', {
             'query': "test",
             'max_results': 10,
@@ -63,7 +89,7 @@ class TestTwitterAPI(unittest.TestCase):
             'next_token': {}
         }), TwitterAPI.create_twitter_url(["Test", "Test2"]))
 
-    def test_twitter_url_multiple_query(self):
+    def test_twitter_url_multiple_words(self):
         self.assertEqual(('https://api.twitter.com/2/tweets/search/recent', {
             'query': "test for multiples queries",
             'max_results': 10,
@@ -122,3 +148,6 @@ class TestTwitterAPI(unittest.TestCase):
             'place.fields': 'full_name,id,country,country_code,geo,name,place_type',
             'next_token': {}
         }), TwitterAPI.create_twitter_url(None))
+
+    def test_empty_url(self):
+        pass
