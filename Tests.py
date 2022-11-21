@@ -66,16 +66,54 @@ class TestTwitterAPI(unittest.TestCase):
         url, params = TwitterAPI.create_twitter_url("test")
         json_response = TwitterAPI.query_twitter_api(url, headers, params)
 
-        response = requests.request('GET', url, headers=headers, params=params)
-        self.assertIsNotNone(response.json())
+        self.assertIsNotNone(json_response)
 
     def test_empty_query_twitter_api(self):
         headers = TwitterAPI.create_twitter_headers()
         url, params = TwitterAPI.create_twitter_url("")
         json_response = TwitterAPI.query_twitter_api(url, headers, params)
+        print(json_response)
 
-        response = requests.request('GET', url, headers=headers, params=params)
-        self.assertIsNotNone(response.json())
+        self.assertIsNotNone(json_response)
+
+    def test_none_query_twitter_api(self):
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url(None)
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+        self.assertIsNotNone(json_response)
+
+    def test_find_tweet_from_json(self):
+        database = Database();
+        data = 'salut'
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url(data)
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+        tweets = json_response['data']
+        self.assertIsNotNone(tweets)
+
+    def test_find_tweet_from_json_none_data(self):
+        data = None
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url(data)
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+        tweets = json_response['data']
+        self.assertIsNotNone(tweets)
+
+    def test_find_tweet_from_json_empty_data(self):
+        data = ''
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url(data)
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+        tweets = json_response['data']
+        self.assertIsNotNone(tweets)
+
+    def test_find_tweet_from_json_space_data(self):
+        data = ' '
+        headers = TwitterAPI.create_twitter_headers()
+        url, params = TwitterAPI.create_twitter_url(data)
+        json_response = TwitterAPI.query_twitter_api(url, headers, params)
+        tweets = json_response['data']
+        self.assertIsNotNone(tweets)
 
     def test_twitter_url_one_word(self):
         self.assertEqual(('https://api.twitter.com/2/tweets/search/recent', {
