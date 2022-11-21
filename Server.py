@@ -50,7 +50,7 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
                 text_to_display = f"{'Tu dois recherche au minimum un mot !'}".format(**locals())
 
             if data is not None:
-                if ' ' not in data:
+                if data != ' ':
 
                     tweets = json_response['data']
 
@@ -61,12 +61,15 @@ class Lab4HTTPRequestHandler(SimpleHTTPRequestHandler):
                     all_tweets = self.db.load_tweets()
 
                     tweets_to_display = ''
+
                     for tweet in all_tweets:
                         tweets_to_display += '<div> <li>' + tweet['text'] + '</li> </div>'
 
                     text_to_display = ''
                     with open('Display.html', 'r') as file:
                         text_to_display = f"{file.read()}".format(**locals())
+
+
 
             self.send_response(HTTPStatus.OK)
             self.send_header('Content-type', 'text/html')
