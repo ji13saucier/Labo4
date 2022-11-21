@@ -12,7 +12,8 @@ class TwitterAPI:
     @staticmethod
     def create_twitter_url(keyword, max_results=10):
         search_url = 'https://api.twitter.com/2/tweets/search/recent'
-
+        if keyword is None:
+            keyword = " "
         if keyword is None:
             keyword = ' '
 
